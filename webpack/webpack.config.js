@@ -14,7 +14,7 @@ module.exports = {
     },
     devServer: {
         contentBase: './public',
-        port: 9000 
+        port: 9000 /*Não está funcionando o webpack-dev-server*/
     },
     optimization: {
         minimizer: [
@@ -47,8 +47,8 @@ module.exports = {
                     'sass-loader', 
                 ]
         }, {
-            test: /\.(png|svg|jpg|gif)$/,
-            use: ['file-loader']
+            /*test: /\.(png|svg|jpg|gif)$/,
+            use: ['file-loader']*/
         }
 
     ]
@@ -56,3 +56,4 @@ module.exports = {
 }
 
 // OBS: Caso o optimize não for testar o npm install css-minimizer-webpack-plugin --save-dev
+// npm run build para minificar
