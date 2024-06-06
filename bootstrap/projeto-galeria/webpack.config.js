@@ -1,7 +1,8 @@
 const modoDev = process.env.NODE_ENV !== 'production'
 const webpack = require('webpack')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+//const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const TeserPlugin = require('terser-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 
@@ -14,10 +15,16 @@ module.exports = {
     },
     optimization: {
         minimizer: [
-            new UglifyJsPlugin({
+            /*new UglifyJsPlugin({
                 cache: true,
                 parallel: true,
                 sourceMap: true
+            }),*/
+            new TeserPlugin({
+                parallel: true,
+                terserOptions: {
+                    ecma: 6,
+                }
             }),
             new OptimizeCSSAssetsPlugin({})
         ]
@@ -28,10 +35,12 @@ module.exports = {
     },
     plugins: [
         new MiniCssExtractPlugin({ filename: 'estilo.css' }),
-        new CopyWebpackPlugin([
-            { context: 'src/', from: '**/*.html' },
-            { context: 'src/', from: 'imgs/**/*' }
-        ])
+        new CopyWebpackPlugin({
+            patterns: [
+                { from: 'src/**/*.html', to: '[name].[ext]' },
+                { from: 'src/imgs/**/*', to: 'imgs/[name].[ext]' }
+            ]
+        })
     ],
     module: {
         rules: [{
